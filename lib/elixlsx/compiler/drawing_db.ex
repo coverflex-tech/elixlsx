@@ -39,8 +39,12 @@ defmodule Elixlsx.Compiler.DrawingDB do
           message: "Invalid key provided for DrawingDB.get_id: " <> inspect(image)
         }
 
-      {:ok, id} ->
-        id
+      {:ok, _} ->
+        # Unique ID based on file_path
+        drawingdb.images
+        |> Enum.sort_by(fn {_, v} -> v end)
+        |> Enum.uniq_by(fn {k, _} -> k.file_path end)
+        |> Enum.find_index(fn {k, _} -> k.file_path == image.file_path end)
     end
   end
 

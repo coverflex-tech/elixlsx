@@ -108,12 +108,18 @@ defmodule Elixlsx.Writer do
     String.to_charlist("xl/worksheets/_rels/#{sci.filename}.rels")
   end
 
-  @spec get_xl_worksheets__rel_dir(Sheet.t(), SheetCompInfo.t()) :: list(zip_tuple)
-  def get_xl_worksheets__rel_dir(s, sci) do
+  @spec get_xl_worksheets__rel_dir(
+          Workbook.t(),
+          Sheet.t(),
+          SheetCompInfo.t(),
+          WorkbookCompInfo.t()
+        ) ::
+          list(zip_tuple)
+  def get_xl_worksheets__rel_dir(w, s, sci, wci) do
     if s.images == [] do
       []
     else
-      [{sheet_full__rels_path(sci), XMLTemplates.make_xl_worksheet_rel_sheet()}]
+      [{sheet_full__rels_path(sci), XMLTemplates.make_xl_worksheet_rel_sheet(w, s, wci)}]
     end
   end
 
@@ -124,7 +130,7 @@ defmodule Elixlsx.Writer do
     Enum.zip(sheets, wci.sheet_info)
     |> Enum.flat_map(fn {s, sci} ->
       [{sheet_full_path(sci), XMLTemplates.make_sheet(s, wci)}] ++
-        get_xl_worksheets__rel_dir(s, sci)
+        get_xl_worksheets__rel_dir(data, s, sci, wci)
     end)
   end
 
@@ -184,6 +190,7 @@ defmodule Elixlsx.Writer do
         {image_full_path(image, wci), read_image(image.file_path)}
       end)
     end)
+    |> Enum.uniq()
   end
 
   def get_contentTypes_xml(_, wci) do

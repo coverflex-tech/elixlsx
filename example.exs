@@ -149,12 +149,22 @@ sheet7 = %Sheet{
 
 sheet7 =
   sheet7
-  |> Sheet.insert_image(0, 5, "ladybug-3475779_640.jpg")
+  |> Sheet.insert_image(0, 0, "ladybug-3475779_640.jpg", width: 160, height: 106, positioning: :oneCell)
   |> Sheet.set_row_height(1, 40)
-  |> Sheet.insert_image(6, 6, "ladybug-3475779_640.jpg")
+  |> Sheet.insert_image(4, 4, "ladybug-3475779_640-2.jpg", width: 160, height: 106, positioning: :oneCell)
+
+sheet8 = %Sheet{
+  name: "Images 2",
+  rows: List.duplicate(["A", "B", "C", "D", "E"], 5)
+}
+
+sheet8 =
+  sheet8
+  |> Sheet.insert_image(2, 2, "ladybug-3475779_640.jpg", width: 160, height: 106, positioning: :oneCell)
 
 Workbook.append_sheet(workbook, sheet4)
 |> Workbook.append_sheet(sheet5)
 |> Workbook.append_sheet(sheet6)
 |> Workbook.append_sheet(sheet7)
+|> Workbook.append_sheet(sheet8)
 |> Elixlsx.write_to("example.xlsx")

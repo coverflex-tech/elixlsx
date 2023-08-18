@@ -1,4 +1,5 @@
 defmodule Elixlsx.XMLTemplates do
+  alias Elixlsx.Workbook
   alias Elixlsx.Util, as: U
   alias Elixlsx.Compiler.CellStyleDB
   alias Elixlsx.Compiler.StringDB
@@ -96,15 +97,20 @@ defmodule Elixlsx.XMLTemplates do
     }\"/>"
   end
 
-  @spec make_xl_worksheet_rel_sheet() :: String.t()
-  def make_xl_worksheet_rel_sheet() do
-    # We should probably care about a future with multiple rels here
-    # but for now just hard code the drawing one
+  @spec make_xl_worksheet_rel_sheet(Workbook.t(), Sheet.t(), WorkbookCompInfo.t()) :: String.t()
+  def make_xl_worksheet_rel_sheet(w, sheet, wci) do
+    has_images? = fn s -> s.images != [] end
+    sheets = for sheet <- w.sheets, has_images?.(sheet), do: sheet
+    {_, di} = Enum.zip(sheets, wci.drawing_info) |> Enum.find(fn {s, _} -> s == sheet end)
+
     """
     <?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>
     <Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">
-      <Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing\"
-                    Target=\"../drawings/drawing1.xml\"/>
+      <Relationship
+        Id=\"#{di.rId}\"
+        Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing\"
+        Target=\"../drawings/drawing#{di.drawingId}.xml\"
+      />
     </Relationships>
     """
   end
@@ -530,9 +536,9 @@ defmodule Elixlsx.XMLTemplates do
         </xdr:from>
         <xdr:to>
             <xdr:col>#{image.colidx}</xdr:col>
-            <xdr:colOff>#{image.x_to_offset}</xdr:colOff>
+            <xdr:colOff>#{image.width * 9525}</xdr:colOff>
             <xdr:row>#{image.rowidx}</xdr:row>
-            <xdr:rowOff>#{image.y_to_offset}</xdr:rowOff>
+            <xdr:rowOff>#{image.height * 9525}</xdr:rowOff>
         </xdr:to>
         <xdr:pic>
             <xdr:nvPicPr>
@@ -551,8 +557,8 @@ defmodule Elixlsx.XMLTemplates do
             </xdr:blipFill>
             <xdr:spPr>
                 <a:xfrm>
-                    <a:off x="1812547" y="3503925"/>
-                    <a:ext cx="240431" cy="237600"/>
+                    <a:off x="0" y="0"/>
+                    <a:ext cx="#{image.width * 9525}" cy="#{image.height * 9525}"/>
                 </a:xfrm>
                 <a:prstGeom prst="rect">
                     <a:avLst/>
