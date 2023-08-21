@@ -149,7 +149,7 @@ sheet7 = %Sheet{
 
 sheet7 =
   sheet7
-  |> Sheet.insert_image(0, 0, "ladybug-3475779_640.jpg", width: 160, height: 106, positioning: :oneCell)
+  |> Sheet.insert_image(0, 0, "ladybug-3475779_640.jpg", width: 160, height: 106, positioning: :oneCell, x_offset: 100)
   |> Sheet.set_row_height(1, 40)
   |> Sheet.insert_image(4, 4, "ladybug-3475779_640-2.jpg", width: 160, height: 106, positioning: :oneCell)
 

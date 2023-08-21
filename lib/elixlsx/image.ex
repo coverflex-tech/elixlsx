@@ -3,10 +3,8 @@ defmodule Elixlsx.Image do
 
   @moduledoc ~S"""
   Structure for excel drawing files.
-  - x_from_offset: integer
-  - x_to_offset: integer
-  - y_from_offset: integer
-  - y_to_offset: integer
+  - x_offset: integer
+  - x_offset: integer
   - positioning: atom (:absolute, :oneCell, :twoCell)
   - width: integer
   - height: integer
@@ -17,10 +15,8 @@ defmodule Elixlsx.Image do
             extension: "png",
             rowidx: 0,
             colidx: 0,
-            x_from_offset: 0,
-            y_from_offset: 0,
-            x_to_offset: 0,
-            y_to_offset: 0,
+            x_offset: 0,
+            y_offset: 0,
             positioning: "",
             width: 1,
             height: 1
@@ -31,10 +27,8 @@ defmodule Elixlsx.Image do
           extension: String.t(),
           rowidx: integer,
           colidx: integer,
-          x_from_offset: integer,
-          y_from_offset: integer,
-          x_to_offset: integer,
-          y_to_offset: integer,
+          x_offset: integer,
+          y_offset: integer,
           positioning: atom | String.t(),
           width: integer,
           height: integer
@@ -52,10 +46,8 @@ defmodule Elixlsx.Image do
       extension: ext,
       rowidx: rowidx,
       colidx: colidx,
-      x_from_offset: Keyword.get(opts, :x_from_offset, 0),
-      y_from_offset: Keyword.get(opts, :y_from_offset, 0),
-      x_to_offset: Keyword.get(opts, :x_to_offset, 0),
-      y_to_offset: Keyword.get(opts, :y_to_offset, 0),
+      x_offset: Keyword.get(opts, :x_offset, 0),
+      y_offset: Keyword.get(opts, :y_offset, 0),
       positioning: Keyword.get(opts, :positioning, ""),
       width: Keyword.get(opts, :width, 1),
       height: Keyword.get(opts, :height, 1)
