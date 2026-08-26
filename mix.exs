@@ -2,13 +2,13 @@ defmodule Elixlsx.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/xou/elixlsx"
-  @version "0.6.0"
+  @version "0.5.2"
 
   def project do
     [
       app: :elixlsx,
       version: @version,
-      elixir: "~> 1.12",
+      elixir: "~> 1.7",
       package: package(),
       description: "Elixlsx is a writer for the MS Excel OpenXML format (`.xlsx`).",
       build_embedded: Mix.env() == :prod,
@@ -19,15 +19,16 @@ defmodule Elixlsx.Mixfile do
   end
 
   def application do
-    [extra_applications: [:xmerl]]
+    []
   end
 
   defp deps do
     [
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:propcheck, "~> 1.4", only: [:dev, :test]},
+      {:excheck, "~> 0.5", only: :test},
+      {:triq, "~> 1.0", only: :test},
+      {:credo, "~> 0.5", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 
