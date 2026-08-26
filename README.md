@@ -18,16 +18,16 @@ Features:
 - Font and cell background color, borders
 - Merged cells
 
+
 ## Installation
 
+As of version 0.6, elixlsx requires Elixir 1.12 or above.
 
-### Elixir 1.7 and above
-
-Via Hex, in `mix.exs`:
+Installation via Hex, in `mix.exs`:
 
 ```elixir
 defp deps do
-  [{:elixlsx, "~> 0.5.1"}]
+  [{:elixlsx, "~> 0.6.0"}]
 end
 ```
 
@@ -49,6 +49,9 @@ iex(1)> Workbook.append_sheet(%Workbook{}, Sheet.with_name("Sheet 1") |> Sheet.s
 ```
 
 See [example.exs](https://github.com/xou/elixlsx/blob/master/example.exs) for examples how to use the various features.
+
+- The workbook is a XML file ultimately, so remember that formulas containing "<" or ">" must be escaped properly.
+- `:xmerl_lib.export_text/1` can be used to escape formulas properly
 
 ## Number and date formatting reference
 

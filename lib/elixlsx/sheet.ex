@@ -41,7 +41,7 @@ defmodule Elixlsx.Sheet do
           merge_cells: [{String.t(), String.t()}],
           pane_freeze: {number, number} | nil,
           show_grid_lines: boolean(),
-          data_validations: list({String.t(), String.t(), list(String.t())})
+          data_validations: list({String.t(), String.t(), list(String.t()) | String.t()})
         }
   @type rowcol_group :: Range.t() | {Range.t(), opts :: keyword}
 
@@ -222,7 +222,7 @@ defmodule Elixlsx.Sheet do
     %{sheet | pane_freeze: nil}
   end
 
-  @spec add_data_validations(Sheet.t(), String.t(), String.t(), list(String.t())) :: Sheet.t()
+  @spec add_data_validations(Sheet.t(), String.t(), String.t(), String.t() | list(String.t())) :: Sheet.t()
   def add_data_validations(sheet, start_cell, end_cell, values) do
     %{sheet | data_validations: [{start_cell, end_cell, values} | sheet.data_validations]}
   end
